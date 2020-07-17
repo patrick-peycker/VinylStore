@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<section class="row">
+
+    <aside class="col-md-3" id="left-side">
+        <div id="responseArtists">
+        </div>
+    </aside>
+
+    <article class="col-md-9" id="main">
+        <div class="input-group mb-3 justify-content-end">
+            <div>
+                <input type="text" class="form-control" id="artist" size="30" placeholder="Artist..." />
+            </div>
+
+            <div class="input-group-append">
+                <button type="button" class="btn btn-outline-primary" onclick="getArtists(artist.value)">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </div>
+        <div id="responseAlbums">
+
+        </div>
+    </article>
+
+</section>

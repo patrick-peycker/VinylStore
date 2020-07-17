@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "twitter-bootstrap@4.5.0",
+      "destination": "wwwroot/lib/twitter-bootstrap/"
+    },
+    {
+      "library": "font-awesome@5.13.1",
+      "destination": "wwwroot/lib/font-awesome/"
+    }
+  ]
+}
+
+//TODO 01.00 : Client-Side Libraries
+//TODO 01.01 : add Bootstrap 4.5.0
+//TODO 01.02 : add Font Awesome 5.13.1
