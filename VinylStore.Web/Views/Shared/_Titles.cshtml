@@ -1,0 +1,15 @@
+﻿@model IEnumerable<VinylStore.Web.Models.Track>
+
+<table class="table table-borderless">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Number)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+        </tr>
+    }
+</table>

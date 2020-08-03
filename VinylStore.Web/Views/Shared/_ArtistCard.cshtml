@@ -1,9 +1,8 @@
 ﻿@model IEnumerable<Artist>;
 
 
-@foreach (var artist in @Model)
+@foreach (var artist in Model)
 {
-
     <div class="border border-secondary p-2 mb-3" id="@artist.Id " >
         <h6>
             @artist.Name
@@ -11,24 +10,6 @@
         </h6>
         <p>@artist.Disambiguation</p>
         <p>@artist.Country</p>
-        <button type="button" id="@artist.Id" class="btn btn-info btn-sm" onclick="getAlbums(id)">Albums</button>
+        <button type="button" id="@artist.Id"class="btn btn-info btn-sm" onclick="getAlbums(id)">Albums</button>
     </div>
-
-    @*<card class="card mb-3 border-secondary">
-
-        <div class="card-header bg-secondary">
-            <h5 class="card-title">@artist.Name   
-            <h6 class="card-subtitle text-light">@artist.Disambiguation</h6>
-        </div>
-
-        <ul class="list-group">
-            <li class="list-group-item">@artist.Type</li>
-            <li class="list-group-item">@artist.Country</li>
-        </ul>
-
-        <div class="card-footer bg-secondary">
-            <button type="button" id="@artist.Id" class="btn btn-info btn-sm" onclick="getAlbums(id)">Albums</button>
-        </div>
-
-    </card>*@
 }

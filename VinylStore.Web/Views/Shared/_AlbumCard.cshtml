@@ -1,22 +1,4 @@
 ﻿@model IEnumerable<VinylStore.Web.Models.Album>
-@*<card class="card mb-3 border-secondary">
-    <form method="post" role="form">
-        <div class="card-header bg-secondary">
-            <h5 class="card-title text-light">@Model.Title</h5>
-        </div>
-
-        <ul class="list-group">
-            <li class="list-group-item">@Model.Date</li>
-            <li class="list-group-item">@Model.Country</li>
-            <li class="list-group-item">@Model.Barcode</li>
-        </ul>
-
-        <div class="card-footer bg-secondary">
-            <button type="button" id="@Model.Id" class="btn btn-info btn-sm" onclick="getTitles(id)">Details</button>
-            <button type="button" id="@Model.Id" class="btn btn-info btn-sm">Order</button>
-        </div>
-    </form>
-    </card>*@
 
 <table class="table">
     <thead>
@@ -33,89 +15,35 @@
             <th>
                 @Html.DisplayNameFor(model => model.Barcode)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Track)
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Country)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Barcode)
-                </td>
-                <td>
-                    <button type="button" class="btn btn-info btn-sm">Details</button>
-                    <button data-toggle="modal" data-target="#exampleModal" class="btn btn-info btn-sm">Order</button>
-                </td>
-            </tr>
-        }
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Barcode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Track)
+            </td>
+            <td>
+                <button type="button" id="@item.Id" class="btn btn-info btn-sm" onclick="getTitlesByAlbum(id)">Details</button>
+
+            </td>
+        </tr>
+}
     </tbody>
 </table>
-
-@*<div class="modal" tabindex="-1" role="dialog" id="exampleModal">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form asp-action="View">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Model.Id" class="control-label"></label>
-                        <input asp-for="Id" class="form-control" />
-                        <span asp-validation-for="Id" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Title" class="control-label"></label>
-                        <input asp-for="Title" class="form-control" />
-                        <span asp-validation-for="Title" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Date" class="control-label"></label>
-                        <input asp-for="Date" class="form-control" />
-                        <span asp-validation-for="Date" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Country" class="control-label"></label>
-                        <input asp-for="Country" class="form-control" />
-                        <span asp-validation-for="Country" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Barcode" class="control-label"></label>
-                        <input asp-for="Barcode" class="form-control" />
-                        <span asp-validation-for="Barcode" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Price" class="control-label"></label>
-                        <input asp-for="Price" class="form-control" />
-                        <span asp-validation-for="Price" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Quantity" class="control-label"></label>
-                        <input asp-for="Quantity" class="form-control" />
-                        <span asp-validation-for="Quantity" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-success btn-sm">Confirm</button>
-                <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>*@

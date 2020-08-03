@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace VinylStore.Web.Models
@@ -13,5 +14,6 @@ namespace VinylStore.Web.Models
 		public string Name { get; set; }
 		public string Country { get; set; }
 		public string Disambiguation { get; set; }
+		public List<Album> Albums { get; set; }
 	}
 }

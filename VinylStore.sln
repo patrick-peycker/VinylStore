@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VinylStore.Web", "VinylStore.Web\VinylStore.Web.csproj", "{6341D09C-4A21-4C6C-A573-1570B197D3A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VinylStore.Web", "VinylStore.Web\VinylStore.Web.csproj", "{6341D09C-4A21-4C6C-A573-1570B197D3A4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VinylStore.DAL", "VinylStore.DAL\VinylStore.DAL.csproj", "{BA32CE85-3569-45C7-B072-03FEA0784E2B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VinylStore.DAL.Tests", "VinylStore.DAL.Tests\VinylStore.DAL.Tests.csproj", "{BB31C9FD-5858-4EAE-A1A8-3430F20F757D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{6341D09C-4A21-4C6C-A573-1570B197D3A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6341D09C-4A21-4C6C-A573-1570B197D3A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6341D09C-4A21-4C6C-A573-1570B197D3A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA32CE85-3569-45C7-B072-03FEA0784E2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA32CE85-3569-45C7-B072-03FEA0784E2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA32CE85-3569-45C7-B072-03FEA0784E2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA32CE85-3569-45C7-B072-03FEA0784E2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB31C9FD-5858-4EAE-A1A8-3430F20F757D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB31C9FD-5858-4EAE-A1A8-3430F20F757D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB31C9FD-5858-4EAE-A1A8-3430F20F757D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB31C9FD-5858-4EAE-A1A8-3430F20F757D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,29 +1,29 @@
 ﻿function getArtists(search)
 {
 	$.ajax({
-		url: "https://musicbrainz.org/ws/2/artist/?query=" + search + "&limit=5&fmt=json",
+		url: "https://musicbrainz.org/ws/2/artist/?query=%22" + search.trim() + "%22&limit=5&fmt=json",
 		type: 'GET',
 
 		complete: function (result)
 		{
-			var response = JSON.parse(result.responseText);
+			var artists = JSON.parse(result.responseText);
 
 			$("#responseArtists").html("<br />");
 			$("#responseAlbums").html("<br />");
+			$("#responseTitles").html("<br/>");
 
 
 			$.ajax({
-				url: 'Supply/GetArtists',
 				type: 'Post',
-				data: JSON.stringify(response.artists),
 				contentType: 'application/json; charset=utf-8',
+				url: 'Supply/GetArtists',
+				data: JSON.stringify(artists.artists),
 
-				success: function (ArtistCard)
+				success: function (ArtistsView)
 				{
-					$("#responseArtists").append(ArtistCard);
+					$("#responseArtists").append(ArtistsView);
 				}
 			});
-
 		},
 
 		error: function (resultat, status, erreur)
@@ -41,19 +41,53 @@ function getAlbums(artistId)
 
 		complete: function (result)
 		{
-			var response = JSON.parse(result.responseText);
-
+			var albums = JSON.parse(result.responseText);
 			$("#responseAlbums").html("<br />");
+			$("#responseTitles").html("<br/>");
 
 			$.ajax({
-				url: 'Supply/GetAlbums',
 				type: 'Post',
-				data: JSON.stringify(response.releases),
 				contentType: 'application/json; charset=utf-8',
+				url: 'Supply/GetAlbums',
+				data: JSON.stringify(albums.releases),
 
-				success: function (AlbumCard)
+				success: function (AlbumsView)
 				{
-					$("#responseAlbums").append(AlbumCard);
+					$("#responseAlbums").append(AlbumsView);
+				}
+			});
+		},
+
+		error: function (resultat, status, erreur)
+		{
+			alert("Erreur : " + erreur);
+		}
+	});
+}
+
+function getTitlesByAlbum(albumId)
+{
+	$.ajax({
+		url: "https://musicbrainz.org/ws/2/release/" + albumId + "?inc=artists+recordings&fmt=json",
+		type: 'GET',
+
+		complete: function (result)
+		{
+			var tracks = JSON.parse(result.responseText);
+			$("#responseTitles").html("<br/>");
+			var response = JSON.stringify(tracks['media'][0]['tracks']);
+			alert(tracks);
+
+			$.ajax({
+				type: 'Post',
+				dataType: 'Json',
+				//contentType: 'application/json; charset=utf-8',
+				url: 'Supply/GetTitlesByAlbum',
+				data: { response },
+
+				success: function (TitlesView)
+				{
+					$("#responseTitles").append(TitlesView);
 				}
 			});
 		},

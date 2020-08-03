@@ -1,12 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using VinylStore.Web.Models;
 
 namespace VinylStore.Web.Controllers
 {
+	//[AllowAnonymous]
+	//[Authorize(Roles ="Administrator")]
+
 	public class SupplyController : Controller
 	{
+		private static IEnumerable<Artist> Artists { get; set; }
+		private static Artist Artist { get; set; }
+
 		public IActionResult Index()
 		{
 			return View();
@@ -15,19 +25,21 @@ namespace VinylStore.Web.Controllers
 		[HttpPost]
 		public IActionResult GetArtists([FromBody] IEnumerable<Artist> artists)
 		{
-			return PartialView("_ArtistCard", artists.OrderByDescending(a => a.Score));
+			Artists = artists;
+
+			return PartialView("_ArtistCard", Artists.OrderByDescending(a => a.Score));
 		}
 
 		[HttpPost]
-		public IActionResult GetAlbums([FromBody] IEnumerable<Album> albums)
+		public IActionResult GetAlbums([FromBody]IEnumerable<Album> albums)
 		{
-			return PartialView("_AlbumCard", albums.OrderBy(a => a.Date));
+			return PartialView("_AlbumCard", albums);
 		}
 
 		[HttpPost]
-		public IActionResult CheckInStock(Album album)
+		public IActionResult GetTitlesByAlbum(IEnumerable<Track> tracks)
 		{
-			return null;
+			return PartialView("_Titles", tracks);
 		}
 	}
 }
