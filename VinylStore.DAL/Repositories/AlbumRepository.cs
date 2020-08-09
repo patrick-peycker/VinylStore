@@ -2,9 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using VinylStore.CrossCutting.Interfaces;
+using VinylStore.CrossCutting.TransferObjects;
 using VinylStore.DAL.Context;
-using VinylStore.DAL.Entities;
-using VinylStore.DAL.Interfaces;
+using VinylStore.DAL.Extensions;
 
 namespace VinylStore.DAL.Repositories
 {
@@ -22,62 +23,47 @@ namespace VinylStore.DAL.Repositories
 			}
 		}
 
-		public Album Create(Album entity)
-		{
-			if (entity is null)
-			{
-				throw new ArgumentNullException($"AlbumRepository : {nameof(entity)} is empty");
-			}
-
-			var entry = context.Albums.Add(entity);
-
-			return entry.Entity;
-		}
-
 		public Album Delete(Album entity)
 		{
 			throw new NotImplementedException();
 		}
 
-		public bool IsExist(Guid albumId)
-		{
-			return context.Albums.Any(a=> a.AlbumId == albumId);
-		}
-
-		public IEnumerable<Album> Retrieve()
-		{
-			return context.Albums
-				.Include(a => a.Artist)
-				.Include(a => a.Tracks);
-		}
-
-		public Album Retrieve(Guid id)
-		{
-			return context.Albums
-				.Include(a => a.Artist)
+		public ICollection<Album> GetAll()
+			=> context.Albums
 				.Include(a => a.Tracks)
-				.FirstOrDefault(a => a.AlbumId == id);
-		}
+				.Select(a => a.ToTransferObject())
+				.ToList();
 
-		public IEnumerable<Album> RetrieveAlbumsByArtist(Guid ArtistId)
+		public Album GetById(Guid id)
 		{
+			if (id == Guid.Empty)
+				throw new ArgumentNullException(nameof(id));
+
 			return context.Albums
-				.Include(a => a.Artist)
 				.Include(a => a.Tracks)
-				.Where(a => a.ArtistId == ArtistId);
+				.FirstOrDefault(a => a.AlbumId == id)
+				.ToTransferObject();
 		}
 
-		public IEnumerable<Album> RetrieveAlbumsInStock()
+		public Album Insert(Album entity)
 		{
-			return context.Albums
-				.Include(a => a.Artist)
-				.Include(a=> a.Tracks)
-				.Where(a => a.Quantity > 0);
+			if (entity is null)
+				throw new ArgumentNullException(nameof(entity));
+
+			var entry = context.Albums.Add(entity.ToEntity());
+
+			return entry.Entity.ToTransferObject();
 		}
+
+		public bool IsExist(Guid AlbumId)
+			=> context.Albums.Any(a => a.AlbumId == AlbumId);
 
 		public Album Update(Album entity)
 		{
-			context.Albums.Attach(entity).State = EntityState.Modified;
+			if (entity is null)
+				throw new ArgumentNullException(nameof(entity));
+
+			context.Albums.Attach(entity.ToEntity()).State = EntityState.Modified;
 
 			return entity;
 		}

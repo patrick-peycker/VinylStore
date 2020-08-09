@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using VinylStore.BL;
+using VinylStore.BL.UseCases.ManagerRole;
+using VinylStore.CrossCutting.Interfaces;
 using VinylStore.DAL.Context;
 using VinylStore.Web.Areas.Identity;
 
@@ -13,20 +16,28 @@ namespace VinylStore.Web
 {
 	public class Startup
 	{
+		public IConfiguration Configuration { get; }
+		
 		public Startup(IConfiguration configuration)
 		{
 			Configuration = configuration;
 		}
 
-		public IConfiguration Configuration { get; }
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDbContext<VinylStoreDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-
+			//services.AddScoped<IVinylStoreUnitOfWork, VinylStoreUnitOfWork>();
+			//services.AddScoped<IManagerRole, ManagerRole>();
 			//services.AddScoped<IArtistRepository, ArtistRepository>();
 			//services.AddScoped<IAlbumRepository, AlbumRepository>();
+			//services.AddScoped<ITrackRepository, TrackRepository>();
+
+			//services.AddScoped<ICartItemRepository, CartItemRepository>();
+
+			//services.AddScoped<IOrderRepository, OrderRepository>();
+			//services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
 
 			services.AddIdentity<DAL.Entities.User, IdentityRole>(options =>
 			{
@@ -59,6 +70,9 @@ namespace VinylStore.Web
 
 			services.AddTransient<IEmailSender, EmailSender>();
 
+			services.AddHttpContextAccessor();
+			services.AddSession();
+
 			services.AddControllersWithViews()
 				.AddNewtonsoftJson();
 
@@ -81,8 +95,9 @@ namespace VinylStore.Web
 
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
-			app.UseRouting();
+			app.UseSession();
 
+			app.UseRouting();
 			app.UseAuthentication();
 			app.UseAuthorization();
 

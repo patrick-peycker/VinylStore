@@ -1,47 +1,51 @@
-﻿@model IEnumerable<VinylStore.Web.Models.Album>
+﻿@model VinylStore.Web.Models.Artist
+
+<h2>@Model.Name</h2>
+<h3>@Model.Description</h3>
+<h3>@Model.Country</h3>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Title
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Country)
+                Country
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Barcode)
+                Barcode
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Track)
+                Track
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var album in Model.Albums) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.DisplayFor(modelItem => album.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @Html.DisplayFor(modelItem => album.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Country)
+                @Html.DisplayFor(modelItem => album.Country)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Barcode)
+                @Html.DisplayFor(modelItem => album.Barcode)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Track)
+                @Html.DisplayFor(modelItem => album.Track)
             </td>
             <td>
-                <button type="button" id="@item.Id" class="btn btn-info btn-sm" onclick="getTitlesByAlbum(id)">Details</button>
-
+                <a class="btn btn-primary btn-sm" asp-controller= "Supply" asp-action="CheckInStock" asp-route-AlbumId="@album.Id">Order</a>
+                <button type="button" id="@album.Id" class="btn btn-info btn-sm" onclick="getTitlesByAlbum(id)">Details</button>
             </td>
         </tr>
 }

@@ -1,9 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace VinylStore.Web.Models
 {
@@ -11,15 +9,15 @@ namespace VinylStore.Web.Models
 	{
 		public Guid Id { get; set; }
 		public string Title { get; set; }
-		public string Date { get; set; }
+
+		[DisplayFormat(DataFormatString ="{0:yyy}")]
+		public DateTime Date { get; set; }
 		public string Country { get; set; }
 		public string Barcode { get; set; }
 		public decimal Price { get; set; }
 		public int Quantity { get; set; }
-
-		[JsonProperty("track-count")]
 		public int Track { get; set; }
-		public Guid ArtistId { get; set; }
-		public Artist Artist { get; set; }
+
+		public List<Track> Tracks { get; set; }
 	}
 }

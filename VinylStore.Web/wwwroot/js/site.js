@@ -12,7 +12,6 @@
 			$("#responseAlbums").html("<br />");
 			$("#responseTitles").html("<br/>");
 
-
 			$.ajax({
 				type: 'Post',
 				contentType: 'application/json; charset=utf-8',
@@ -68,22 +67,19 @@ function getAlbums(artistId)
 function getTitlesByAlbum(albumId)
 {
 	$.ajax({
-		url: "https://musicbrainz.org/ws/2/release/" + albumId + "?inc=artists+recordings&fmt=json",
+		url: "https://musicbrainz.org/ws/2/release/" + albumId + "?inc=recordings&fmt=json",
 		type: 'GET',
 
 		complete: function (result)
 		{
 			var tracks = JSON.parse(result.responseText);
 			$("#responseTitles").html("<br/>");
-			var response = JSON.stringify(tracks['media'][0]['tracks']);
-			alert(tracks);
 
 			$.ajax({
 				type: 'Post',
-				dataType: 'Json',
-				//contentType: 'application/json; charset=utf-8',
+				contentType: 'application/json; charset=utf-8',
 				url: 'Supply/GetTitlesByAlbum',
-				data: { response },
+				data: JSON.stringify(tracks),
 
 				success: function (TitlesView)
 				{

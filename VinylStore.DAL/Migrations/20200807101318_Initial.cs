@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VinylStore.DAL.Migrations
 {
-    public partial class Intial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -64,12 +64,25 @@ namespace VinylStore.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Orders",
+                columns: table => new
+                {
+                    OrderId = table.Column<Guid>(nullable: false),
+                    Total = table.Column<decimal>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Orders", x => x.OrderId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Albums",
                 columns: table => new
                 {
                     AlbumId = table.Column<Guid>(nullable: false),
                     Title = table.Column<string>(nullable: true),
-                    Date = table.Column<string>(nullable: true),
+                    Date = table.Column<DateTime>(nullable: false),
                     Country = table.Column<string>(nullable: true),
                     Barcode = table.Column<string>(nullable: true),
                     Quantity = table.Column<int>(nullable: false),
@@ -194,6 +207,53 @@ namespace VinylStore.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CartItems",
+                columns: table => new
+                {
+                    CartItemId = table.Column<Guid>(nullable: false),
+                    AlbumId = table.Column<Guid>(nullable: false),
+                    Amount = table.Column<decimal>(nullable: false),
+                    CartId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CartItems", x => x.CartItemId);
+                    table.ForeignKey(
+                        name: "FK_CartItems_Albums_AlbumId",
+                        column: x => x.AlbumId,
+                        principalTable: "Albums",
+                        principalColumn: "AlbumId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderDetails",
+                columns: table => new
+                {
+                    OrderDetailId = table.Column<Guid>(nullable: false),
+                    Quantity = table.Column<int>(nullable: false),
+                    Price = table.Column<decimal>(nullable: false),
+                    AlbumId = table.Column<Guid>(nullable: false),
+                    OrderId = table.Column<Guid>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderDetails", x => x.OrderDetailId);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Albums_AlbumId",
+                        column: x => x.AlbumId,
+                        principalTable: "Albums",
+                        principalColumn: "AlbumId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderDetails_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "OrderId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tracks",
                 columns: table => new
                 {
@@ -201,7 +261,7 @@ namespace VinylStore.DAL.Migrations
                     Title = table.Column<string>(nullable: true),
                     Number = table.Column<string>(nullable: true),
                     Position = table.Column<int>(nullable: false),
-                    Length = table.Column<int>(nullable: false),
+                    Length = table.Column<DateTime>(nullable: false),
                     AlbumId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
@@ -258,6 +318,21 @@ namespace VinylStore.DAL.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_CartItems_AlbumId",
+                table: "CartItems",
+                column: "AlbumId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_AlbumId",
+                table: "OrderDetails",
+                column: "AlbumId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderDetails_OrderId",
+                table: "OrderDetails",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tracks_AlbumId",
                 table: "Tracks",
                 column: "AlbumId");
@@ -281,6 +356,12 @@ namespace VinylStore.DAL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CartItems");
+
+            migrationBuilder.DropTable(
+                name: "OrderDetails");
+
+            migrationBuilder.DropTable(
                 name: "Tracks");
 
             migrationBuilder.DropTable(
@@ -288,6 +369,9 @@ namespace VinylStore.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Albums");

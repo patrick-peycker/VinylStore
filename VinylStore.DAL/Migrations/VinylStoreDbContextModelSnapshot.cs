@@ -159,7 +159,7 @@ namespace VinylStore.DAL.Migrations
                     b.Property<string>("Country")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Date")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Price")
@@ -201,6 +201,72 @@ namespace VinylStore.DAL.Migrations
                     b.ToTable("Artists");
                 });
 
+            modelBuilder.Entity("VinylStore.DAL.Entities.CartItem", b =>
+                {
+                    b.Property<Guid>("CartItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("AlbumId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CartId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CartItemId");
+
+                    b.HasIndex("AlbumId");
+
+                    b.ToTable("CartItems");
+                });
+
+            modelBuilder.Entity("VinylStore.DAL.Entities.Order", b =>
+                {
+                    b.Property<Guid>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("OrderId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("VinylStore.DAL.Entities.OrderDetail", b =>
+                {
+                    b.Property<Guid>("OrderDetailId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("AlbumId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("OrderDetailId");
+
+                    b.HasIndex("AlbumId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderDetails");
+                });
+
             modelBuilder.Entity("VinylStore.DAL.Entities.Track", b =>
                 {
                     b.Property<Guid>("TrackId")
@@ -210,8 +276,8 @@ namespace VinylStore.DAL.Migrations
                     b.Property<Guid>("AlbumId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("Length")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateTime>("Length")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Number")
                         .HasColumnType("TEXT");
@@ -355,6 +421,30 @@ namespace VinylStore.DAL.Migrations
                     b.HasOne("VinylStore.DAL.Entities.Artist", "Artist")
                         .WithMany("Albums")
                         .HasForeignKey("ArtistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("VinylStore.DAL.Entities.CartItem", b =>
+                {
+                    b.HasOne("VinylStore.DAL.Entities.Album", "Album")
+                        .WithMany()
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("VinylStore.DAL.Entities.OrderDetail", b =>
+                {
+                    b.HasOne("VinylStore.DAL.Entities.Album", "Album")
+                        .WithMany()
+                        .HasForeignKey("AlbumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VinylStore.DAL.Entities.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

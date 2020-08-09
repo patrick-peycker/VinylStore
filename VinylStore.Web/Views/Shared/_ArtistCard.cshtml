@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Artist>;
+﻿@model IEnumerable<VinylStore.Web.Models.Artist>;
 
 
 @foreach (var artist in Model)
@@ -8,7 +8,7 @@
             @artist.Name
             <span class="badge badge-pill badge-info">@artist.Score</span>
         </h6>
-        <p>@artist.Disambiguation</p>
+        <p>@artist.Description</p>
         <p>@artist.Country</p>
         <button type="button" id="@artist.Id"class="btn btn-info btn-sm" onclick="getAlbums(id)">Albums</button>
     </div>

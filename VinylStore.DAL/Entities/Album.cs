@@ -7,7 +7,7 @@ namespace VinylStore.DAL.Entities
 	{
 		public Guid AlbumId { get; set; }
 		public string Title { get; set; }
-		public string Date { get; set; }
+		public DateTime Date { get; set; }
 		public string Country { get; set; }
 		public string Barcode { get; set; }
 		public int Quantity { get; set; }
@@ -17,7 +17,5 @@ namespace VinylStore.DAL.Entities
 		public Artist Artist { get; set; }
 
 		public ICollection<Track> Tracks { get; set; }
-
-
 	}
 }

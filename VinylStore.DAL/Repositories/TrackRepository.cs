@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using VinylStore.CrossCutting.Interfaces;
+using VinylStore.CrossCutting.TransferObjects;
 using VinylStore.DAL.Context;
-using VinylStore.DAL.Entities;
-using VinylStore.DAL.Interfaces;
+using VinylStore.DAL.Extensions;
 
 namespace VinylStore.DAL.Repositories
 {
@@ -21,39 +22,64 @@ namespace VinylStore.DAL.Repositories
 				throw new ArgumentNullException($"TrackRepository : {nameof(context)} is empty");
 			}
 		}
-		public Track Create(Track entity)
+		public CrossCutting.TransferObjects.Track Create(CrossCutting.TransferObjects.Track TransferObject)
 		{
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<Track> CreateTracksList(IEnumerable<Track> tracks)
+		public IEnumerable<CrossCutting.TransferObjects.Track> CreateTracksList(IEnumerable<CrossCutting.TransferObjects.Track> Tracks)
 		{
-			context.Tracks.AddRange(tracks);
-			return tracks;
+			if (Tracks is null)
+			{
+				throw new ArgumentNullException($"ArtistRepository : {nameof(Tracks)} is empty");
+			}
+
+			context.Tracks.AddRangeAsync(Tracks.Select(t => t.ToEntity()));
+
+			return Tracks;
 		}
 
-		public Track Delete(Track entity)
-		{
-			throw new NotImplementedException();
-		}
-
-		public IEnumerable<Track> Retrieve()
-		{
-			throw new NotImplementedException();
-		}
-
-		public Track Retrieve(Guid id)
+		public CrossCutting.TransferObjects.Track Delete(CrossCutting.TransferObjects.Track TransferObject)
 		{
 			throw new NotImplementedException();
 		}
 
-		public IEnumerable<Track> RetrieveTracksByAlbums(Guid albumId)
+		public ICollection<Track> GetAll()
+		{
+			throw new NotImplementedException();
+		}
+
+		public Track GetById(Guid id)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Track Insert(Track entity)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable<CrossCutting.TransferObjects.Track> Retrieve()
 		{
 			return context.Tracks
-				.Where (t=>t.AlbumId == albumId);
+				.Include(t => t.Album)
+				.ThenInclude(a => a.Artist)
+				.Select(t => t.ToTransferObject());
 		}
 
-		public Track Update(Track entity)
+		public CrossCutting.TransferObjects.Track Retrieve(Guid Id)
+		{
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable<CrossCutting.TransferObjects.Track> RetrieveTracksByAlbums(Guid AlbumId)
+		{
+			return context.Tracks
+				.Where(t => t.AlbumId == AlbumId)
+				.Select(t => t.ToTransferObject());
+		}
+
+		public CrossCutting.TransferObjects.Track Update(CrossCutting.TransferObjects.Track TransferObject)
 		{
 			throw new NotImplementedException();
 		}
